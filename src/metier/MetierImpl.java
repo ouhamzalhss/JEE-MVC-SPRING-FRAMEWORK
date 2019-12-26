@@ -130,5 +130,9 @@ public class MetierImpl implements IMetierCatalogue {
 		
 		
 	}
+	
+	public void init() {
+		System.out.println("Initialisation.........");
+	}
 
 }

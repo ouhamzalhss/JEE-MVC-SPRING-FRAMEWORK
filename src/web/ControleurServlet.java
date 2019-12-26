@@ -4,25 +4,31 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.connector.Response;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import metier.IMetierCatalogue;
 import metier.MetierImpl;
 import metier.Produit;
 
+@WebServlet(name = "cs", urlPatterns = "*.php")
 public class ControleurServlet extends HttpServlet{
 
 	private IMetierCatalogue metier;
 	
 	@Override
 	public void init() throws ServletException {
-       metier = new MetierImpl();
-		
-	}
+        // metier = new MetierImpl();
+	 	ApplicationContext springCtx = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+		metier = (IMetierCatalogue) springCtx.getBean("dao");
+	} 
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
